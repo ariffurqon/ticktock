@@ -37,19 +37,18 @@ var TickTock = React.createClass({
       </View>
     </View>
   },
-  laps: function() {
+  laps: function(){
       return this.state.laps.map(function(time, index){
-        return <View>
-          <Text>
-              Lap #{index + 1}
+        return <View style={styles.lap}>
+          <Text style={styles.lapText}>
+            Lap #{index + 1}
           </Text>
-          <Text>
-              {formatTime(time)}  
+          <Text style={styles.lapText}>
+            {formatTime(time)}
           </Text>
-
         </View>
       });
-  },
+    },
   startStopButton: function() {
     var style = this.state.running ? styles.stopButton : styles.startButton;
 
@@ -141,6 +140,13 @@ var styles = StyleSheet.create({
   },
   stopButton: {
     borderColor: '#CC0000'
+  },
+  lap: {
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+  },
+  lapText: {
+    fontSize: 30
   }
 });
 
