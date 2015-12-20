@@ -2,20 +2,26 @@ var React = require('react-native');
 var {
   Text,
   View,
+  TouchableHighlight,
   AppRegistry,
   StyleSheet
 } = React;
 
 var TickTock = React.createClass({
+  getInitialState: function() {
+    return {
+      timeElapsed: null
+    }
+  },
   render: function() {
     return <View style={styles.container}>
       <View style={[styles.header, this.border('yellow')]}>
-        <View style={this.border('red')}>
+        <View style={[styles.timerWrapper, this.border('red')]}>
           <Text>
-            00:00.00
+            {this.state.timeElapsed}
           </Text>
         </View>
-        <View style={this.border('green')}> 
+        <View style={[styles.buttonWrapper, this.border('green')]}>
           {this.startStopButton()}
           {this.lapButton()}
         </View>
@@ -29,11 +35,14 @@ var TickTock = React.createClass({
     </View>
   },
   startStopButton: function() {
-    return <View>
+    return <TouchableHighlight 
+      underlayColor="red"
+      onPress={this.handleStartPress}
+    >
       <Text>
         Start
       </Text>
-    </View>
+    </TouchableHighlight>
   },
   lapButton: function() {
     return <View>
@@ -42,7 +51,18 @@ var TickTock = React.createClass({
       </Text>
     </View>
   },
-  border: function(color) {
+  handleStartPress: function() {
+      var startTime = new Date();
+
+      setInterval(() => {
+        this.setState({
+          timeElapsed: new Date() - startTime
+      });
+    },30);
+
+  },
+
+  border: function(color){
     return {
       borderColor: color,
       borderWidth: 4
@@ -60,6 +80,17 @@ var styles = StyleSheet.create({
   },
   footer: { // Blue
     flex: 1
+  },
+  timerWrapper: { // Red
+    flex: 5, // takes up 5/8ths of the available space
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonWrapper: { // Green
+    flex: 3, // takes up 3/8ths of the available space
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   }
 });
 
